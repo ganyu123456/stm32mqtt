@@ -198,7 +198,7 @@ TRACEIOT_BROKER: EMQX Broker 地址
 TRACEIOT_PORT:   EMQX Broker 端口
 *****************************************************/
 #define DEVICE_CODE      "CSTX001"
-#define TRACEIOT_BROKER  "broker.emqx.io"
+#define TRACEIOT_BROKER  "traceiot.zkjgy.online"
 #define TRACEIOT_PORT    "1883"
 /*****************************************************
 建立TCP链接 
