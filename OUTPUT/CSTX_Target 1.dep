@@ -409,7 +409,7 @@ I (..\STM32F10x_FWLib\inc\stm32f10x_tim.h)(0x4D783BB4)
 I (..\HARDWARE\4G\4G.h)(0x64999DCF)
 I (..\SYSTEM\delay\delay.h)(0x5837B94B)
 I (..\HARDWARE\flash\flash.h)(0x6247E70B)
-F (..\HARDWARE\4G\4G.c)(0x6A251519)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\CORE -I..\HARDWARE\LED -I..\HARDWARE\WDG -I..\STM32F10x_FWLib\inc -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\HARDWARE\TIMER -I..\HARDWARE\RS485 -I..\HARDWARE\4G -I..\HARDWARE\LCD -I..\HARDWARE\DHT11 -I..\HARDWARE\adc -I..\HARDWARE\spi -I..\HARDWARE\flash-I D:\data\00-github\03-stm32mqtt\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="515" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\output\4g.o --omf_browse ..\output\4g.crf --depend ..\output\4g.d)
+F (..\HARDWARE\4G\4G.c)(0x6A252944)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I..\CORE -I..\HARDWARE\LED -I..\HARDWARE\WDG -I..\STM32F10x_FWLib\inc -I..\SYSTEM\delay -I..\SYSTEM\sys -I..\SYSTEM\usart -I..\USER -I..\HARDWARE\TIMER -I..\HARDWARE\RS485 -I..\HARDWARE\4G -I..\HARDWARE\LCD -I..\HARDWARE\DHT11 -I..\HARDWARE\adc -I..\HARDWARE\spi -I..\HARDWARE\flash-I D:\data\00-github\03-stm32mqtt\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="515" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\output\4g.o --omf_browse ..\output\4g.crf --depend ..\output\4g.d)
 I (..\HARDWARE\4G\4G.h)(0x64999DCF)
 I (..\SYSTEM\usart\usart.h)(0x6247DF7E)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54C245B8)
