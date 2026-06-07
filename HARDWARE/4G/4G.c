@@ -190,6 +190,16 @@ void CSTX_4G_ConTCP(void)
 *****************************************************/
 #define SERVERIP "a1mM8WG8LPc.iot-as-mqtt.cn-shanghai.aliyuncs.com"
 #define SERVERPORT "1883"
+
+/*****************************************************
+TraceIoT 平台配置
+DEVICE_CODE: 设备唯一编码，对应 TraceIoT 平台的设备编号
+TRACEIOT_BROKER: EMQX Broker 地址
+TRACEIOT_PORT:   EMQX Broker 端口
+*****************************************************/
+#define DEVICE_CODE      "CSTX001"
+#define TRACEIOT_BROKER  "broker.emqx.io"
+#define TRACEIOT_PORT    "1883"
 /*****************************************************
 建立TCP链接 
 *****************************************************/
@@ -281,11 +291,12 @@ void CSTX_4G_Senddata(int len,uint8_t *data)//发送字符串数据
 
 
 /*****************************************************
-收到服务器下发的数据就直接打印
+收到服务器下发的数据就直接打印，并处理控制指令
+支持 "LEDK" 点亮LED3，"LEDG" 熄灭LED3
 *****************************************************/
 void CSTX_4G_RECTCPData(void)
 {
-    if(strstr((const char*)buf_uart2.buf,(const char*)"LEDK"))//返回+QIURC:，表明接收到TCP服务器发回的数据
+    if(strstr((const char*)buf_uart2.buf,(const char*)"LEDK"))
     {
 			printf("收到服务器下发数据:%s",buf_uart2.buf); 
 			GPIO_ResetBits(GPIOB,GPIO_Pin_3); 			
@@ -301,16 +312,16 @@ void CSTX_4G_RECTCPData(void)
 }
 
 /*****************************************************
-注册到EMQX平台
+注册到EMQX平台（TraceIoT）
 *****************************************************/
 void CSTX_4G_RegALIYUNIOT(void)//平台注册
 {
 		int errcount = 0;
 
 	  memset(ATSTR,0,BUFLEN);
-    sprintf(ATSTR,"AT+QMTOPEN=0,\"106.15.62.60\",1883\r\n");
+    sprintf(ATSTR,"AT+QMTOPEN=0,\"%s\",%s\r\n", TRACEIOT_BROKER, TRACEIOT_PORT);
     printf("ATSTR = %s \r\n",ATSTR);
-    Uart2_SendStr(ATSTR);//登录EMQX平台
+    Uart2_SendStr(ATSTR);//连接EMQX Broker
     delay_ms(300);
     strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTOPEN: 0,0");//返+QMTOPEN: 0,0
     while(strx==NULL)
@@ -330,9 +341,9 @@ void CSTX_4G_RegALIYUNIOT(void)//平台注册
     Clear_Buffer();
 
     memset(ATSTR,0,BUFLEN);
-    sprintf(ATSTR,"AT+QMTCONN=0,\"cstx123456\",\"admin\",\"public\"\r\n");
+    sprintf(ATSTR,"AT+QMTCONN=0,\"%s\"\r\n", DEVICE_CODE);
     printf("ATSTR = %s \r\n",ATSTR);
-    Uart2_SendStr(ATSTR);//发送链接到EMQX
+    Uart2_SendStr(ATSTR);//发送连接命令（公共Broker无需用户名密码）
     delay_ms(300);
     strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTCONN: 0,0,0");//返+QMTCONN: 0,0,0
     while(strx==NULL)
@@ -340,16 +351,17 @@ void CSTX_4G_RegALIYUNIOT(void)//平台注册
         strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTCONN: 0,0,0");//返+QMTCONN: 0,0,0
     }
     Clear_Buffer();
-		
+
+    /* 订阅下行指令 Topic：gps/{DEVICE_CODE}/cmd */
 		memset(ATSTR,0,BUFLEN);
-    sprintf(ATSTR,"AT+QMTSUB=0,1,\"testtopic\",0 \r\n");
+    sprintf(ATSTR,"AT+QMTSUB=0,1,\"gps/%s/cmd\",0 \r\n", DEVICE_CODE);
     printf("ATSTR = %s \r\n",ATSTR);
     Uart2_SendStr(ATSTR);//订阅到EMQX
     delay_ms(300);
-    strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTSUB: 0,1,0,0");//返+QMTCONN: 0,0,0
+    strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTSUB: 0,1,0,0");//返+QMTSUB: 0,1,0,0
     while(strx==NULL)
     {
-        strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTSUB: 0,1,0,0");//返+QMTCONN: 0,0,0
+        strx=strstr((const char*)buf_uart2.buf,(const char*)"+QMTSUB: 0,1,0,0");//返+QMTSUB: 0,1,0,0
     }
     Clear_Buffer();
 
@@ -509,7 +521,7 @@ void Start_GPS(void) //开启GPS并进行定位
 }
 
 
-void Get_GPS_RMC(void)//上传GPS信息
+void Get_GPS_RMC(void)//上传GPS信息（格式对齐 TraceIoT 平台）
 {
 		CSTX_4G_RECTCPData();//收数据,接收服务器下发的数据并打印到串口1进行显示
 		Uart2_SendStr("AT+QGPSGNMEA=\"RMC\"\r\n");//查询激活状态
@@ -528,53 +540,59 @@ void Get_GPS_RMC(void)//上传GPS信息
 		{
 				ClearRAM((u8 *)LongitudeStr,20);
 				ClearRAM((u8 *)LatitudeStr,20);
-				Get_GPS(LongitudeStr,LatitudeStr); //进行纠偏
+				Get_GPS(LongitudeStr,LatitudeStr); //进行纠偏（LongitudeStr=经度lng, LatitudeStr=纬度lat）
 				printf("LongitudeStr=%s\r\n",LongitudeStr);
 				printf("LatitudeStr=%s\r\n",LatitudeStr);
 				
-				//将GPS信息上传至服务器
+				/* 发布 GPS 位置到 TraceIoT 平台
+				 * Topic  : gps/{DEVICE_CODE}/location
+				 * Payload: {"deviceId":"CSTX001","lat":26.xxx,"lng":119.xxx,"speed":0,"direction":0,"timestamp":0}
+				 * 注意: timestamp=0 时，后端将使用服务器当前时间
+				 */
 				memset(ATSTR,0,BUFLEN);
-				Clear_Buffer1();	//发送命令之前清空之前的模块反馈的数据
-				sprintf(ATSTR,"AT+QMTPUB=0,0,0,0,\"testtopic\"\r\n");//g_config_data.topicPost
+				Clear_Buffer1();
+				sprintf(ATSTR,"AT+QMTPUB=0,0,0,0,\"gps/%s/location\"\r\n", DEVICE_CODE);
 				printf("ATSTR = %s \r\n",ATSTR);
-				Uart2_SendStr(ATSTR);//发送命令 模块发送命令
+				Uart2_SendStr(ATSTR);
 				delay_ms(300);
-				strx=strstr((const char*)buf_uart2.buf,(const char*)">");//模块反馈可以发送数据了
+				strx=strstr((const char*)buf_uart2.buf,(const char*)">");
 				while(strx==NULL)
 				{
 						errcount++;
-						strx=strstr((const char*)buf_uart2.buf,(const char*)">");//模块反馈可以发送数据了
+						strx=strstr((const char*)buf_uart2.buf,(const char*)">");
 						delay_ms(300);
-						if(errcount>100)     //防止死循环跳出
+						if(errcount>100)
 						{
 								errcount = 0;
 								break;
 						}
 				}
 				memset(ATSTR,0,BUFLEN);
-				sprintf(ATSTR,"{\"msg\":\"LongitudeStr\":%s,\"LatitudeStr\":%s}",LongitudeStr,LatitudeStr);
-				printf("ATSTR = %s \r\n",ATSTR);
-				Uart2_SendStr(ATSTR);	//发送完毕命令接下来就进行判断反馈
+				/* lat = 纬度(LatitudeStr ~26.xx)  lng = 经度(LongitudeStr ~119.xx) */
+				sprintf(ATSTR,
+				        "{\"deviceId\":\"%s\",\"lat\":%s,\"lng\":%s,\"speed\":0,\"direction\":0,\"timestamp\":0}",
+				        DEVICE_CODE, LatitudeStr, LongitudeStr);
+				printf("GPS Payload = %s \r\n",ATSTR);
+				Uart2_SendStr(ATSTR);
 				delay_ms(300);
 				UART2_send_byte(0x1A); //发送结束符
-				strx=strstr((const char*)buf_uart2.buf,(const char*)"OK");//返发送成功
+				strx=strstr((const char*)buf_uart2.buf,(const char*)"OK");
 				errcount=0;
 				while(strx==NULL)
 				{
 						errcount++;
-						strx=strstr((const char*)buf_uart2.buf,(const char*)"OK");//返发送成功
+						strx=strstr((const char*)buf_uart2.buf,(const char*)"OK");
 						delay_ms(100);
-						if(errcount>100)     //超时退出死循环 表示服务器连接失败
+						if(errcount>100)
 						{
 								errcount = 0;
 								break;
 						}
 				}
-						printf("GPS信息上传成功！！！\r\n");
-				}
+				printf("GPS信息上传成功！！！\r\n");
+		}
 		CSTX_4G_RECTCPData();//收数据,接收服务器下发的数据并打印到串口1进行显示
 		printf(buf_uart2.buf);
-//		Clear_Buffer();
 }
 
 /*************解析出经纬度数据*******************/	

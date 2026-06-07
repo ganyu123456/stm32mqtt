@@ -565,11 +565,10 @@ ARM Macro Assembler    Page 9
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=..\output\startup_stm32f10x_hd.d -o..\output\startup_stm32f10x_hd.
-o -I"I:\data\STM32 EC800M(4G+GNSS)ÎïÁªÍøWiFi×ÊÁÏV3.5\10.³ÌÐò´úÂë\25.EC200U¿ª·¢°
-å²É¼¯ÎÂÊª¶ÈGPSºÍADCÊý¾ÝÍ¨¹ýMQTTÐ­Òé·¢ËÍµ½emq\USER\RTE" -ID:\Keil_v5\ARM\PACK\Ke
-il\STM32F1xx_DFP\1.1.0\Device\Include -ID:\Keil_v5\ARM\CMSIS\Include --predefin
-e="__UVISION_VERSION SETA 515" --predefine="STM32F10X_HD SETA 1" --list=.\start
-up_stm32f10x_hd.lst ..\CORE\startup_stm32f10x_hd.s
+o -ID:\data\00-github\03-stm32mqtt\USER\RTE -ID:\Keil_v5\ARM\PACK\Keil\STM32F1x
+x_DFP\1.1.0\Device\Include -ID:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISIO
+N_VERSION SETA 515" --predefine="STM32F10X_HD SETA 1" --list=.\startup_stm32f10
+x_hd.lst ..\CORE\startup_stm32f10x_hd.s
 
 
 
