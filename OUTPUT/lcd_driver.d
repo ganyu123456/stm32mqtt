@@ -1,0 +1,17 @@
+..\output\lcd_driver.o: ..\HARDWARE\LCD\Lcd_Driver.c
+..\output\lcd_driver.o: ..\USER\stm32f10x.h
+..\output\lcd_driver.o: ..\CORE\core_cm3.h
+..\output\lcd_driver.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\lcd_driver.o: ..\USER\system_stm32f10x.h
+..\output\lcd_driver.o: ..\USER\stm32f10x_conf.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\stm32f10x_can.h
+..\output\lcd_driver.o: ..\USER\stm32f10x.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\output\lcd_driver.o: ..\STM32F10x_FWLib\inc\misc.h
+..\output\lcd_driver.o: ..\HARDWARE\LCD\Lcd_Driver.h
+..\output\lcd_driver.o: ..\HARDWARE\LCD\LCD_Config.h
+..\output\lcd_driver.o: ..\SYSTEM\delay\delay.h
+..\output\lcd_driver.o: ..\SYSTEM\sys\sys.h

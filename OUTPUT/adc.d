@@ -1,0 +1,17 @@
+..\output\adc.o: ..\HARDWARE\adc\adc.c
+..\output\adc.o: ..\HARDWARE\adc\adc.h
+..\output\adc.o: ..\SYSTEM\sys\sys.h
+..\output\adc.o: ..\USER\stm32f10x.h
+..\output\adc.o: ..\CORE\core_cm3.h
+..\output\adc.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\adc.o: ..\USER\system_stm32f10x.h
+..\output\adc.o: ..\USER\stm32f10x_conf.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_can.h
+..\output\adc.o: ..\USER\stm32f10x.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\misc.h
+..\output\adc.o: ..\SYSTEM\delay\delay.h
+..\output\adc.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h

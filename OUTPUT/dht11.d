@@ -1,0 +1,16 @@
+..\output\dht11.o: ..\HARDWARE\DHT11\dht11.c
+..\output\dht11.o: ..\HARDWARE\DHT11\dht11.h
+..\output\dht11.o: ..\USER\stm32f10x.h
+..\output\dht11.o: ..\CORE\core_cm3.h
+..\output\dht11.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\dht11.o: ..\USER\system_stm32f10x.h
+..\output\dht11.o: ..\USER\stm32f10x_conf.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\stm32f10x_can.h
+..\output\dht11.o: ..\USER\stm32f10x.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\output\dht11.o: ..\STM32F10x_FWLib\inc\misc.h
+..\output\dht11.o: ..\SYSTEM\delay\delay.h
+..\output\dht11.o: ..\SYSTEM\sys\sys.h
